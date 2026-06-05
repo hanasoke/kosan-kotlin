@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -14,6 +15,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.kosan.ui.theme.KosanTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
@@ -44,7 +48,7 @@ fun HomeScreen(modifier: Modifier = Modifier) {
 
         HeaderSection()
 
-        WelcomeCard(name = "Hanas Bayu Pratama")
+        WelcomeCard(name = "Pengunjung Kosan Hanagakure")
 
         ActionButton()
     }
@@ -52,17 +56,27 @@ fun HomeScreen(modifier: Modifier = Modifier) {
 
 @Composable
 fun HeaderSection() {
-    Text(
-        text = "Kosan App 🏠",
-        style = MaterialTheme.typography.headlineMedium,
-        fontWeight = FontWeight.Bold
-    )
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.hanagakure),
+            contentDescription = "Logo Hanagakure",
+            modifier = Modifier
+                .size(300.dp)
+                .padding(bottom = 1.dp),
+            contentScale = ContentScale.Fit
+        )
 
-    Text(
-        text = "Temukan kosan terbaik dengan mudah",
-        style = MaterialTheme.typography.bodyMedium,
-        color = MaterialTheme.colorScheme.onSurfaceVariant
-    )
+        Text(
+            text = "Temukan kosan terbaik dengan mudah",
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+
+    }
+    
 }
 
 @Composable
