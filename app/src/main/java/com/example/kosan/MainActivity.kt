@@ -70,6 +70,12 @@ fun HeaderSection() {
         )
 
         Text(
+            text = "Hanagakure 🏠",
+            style = MaterialTheme.typography.headlineMedium,
+            fontWeight = FontWeight.Bold
+        )
+
+        Text(
             text = "Temukan kosan terbaik dengan mudah",
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
