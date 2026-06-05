@@ -7,11 +7,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.kosan.ui.theme.KosanTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -20,6 +18,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,10 +26,28 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             KosanTheme {
-                Scaffold { padding ->
-                    HomeScreen(
-                        modifier = Modifier.padding(padding)
-                    )
+                val navController = rememberNavController()
+
+                NavHost(
+                    navController = navController,
+                    startDestination =  "home"
+                ) {
+                    composable("home") {
+                        HomeScreen(
+                            onCariKosanClick = {
+                                navController.navigate("list")
+                            }
+                        )
+                    }
+
+                    composable("list") {
+                        ListKosanScreen(navController)
+                    }
+
+                    composable("detail/{kosanId}") { backStackEntry ->
+                        val id = backStackEntry.arguments?.getString("kosanId")?.toInt()
+                        DetailKosanScreen(kosanId = id ?: 0)
+                    }
                 }
             }
         }
@@ -38,7 +55,10 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(
+    modifier: Modifier = Modifier,
+    onCariKosanClick: () -> Unit
+    ) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -50,7 +70,7 @@ fun HomeScreen(modifier: Modifier = Modifier) {
 
         WelcomeCard(name = "Pengunjung Kosan Hanagakure")
 
-        ActionButton()
+        ActionButton(onClick = onCariKosanClick)
     }
 }
 
@@ -109,19 +129,12 @@ fun WelcomeCard(name: String) {
 }
 
 @Composable
-fun ActionButton() {
+fun ActionButton(onClick: () -> Unit) {
     Button(
-        onClick = { /* TODO: Navigasi ke halaman list kosan */ },
+        onClick = onClick,
         modifier = Modifier.fillMaxWidth()
     ) {
         Text(text = "Cari Kosan")
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun HomePreview() {
-    KosanTheme {
-        HomeScreen()
-    }
-}
